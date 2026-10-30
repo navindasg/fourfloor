@@ -1,0 +1,64 @@
+[package]
+name = "fourfloor-agent"
+description = "Agent API for fourfloor: an MCP server whose tools map to model commands, pattern generators and a natural-language command layer"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lib]
+name = "fourfloor_agent"
+path = "src/lib.rs"
+
+[[bin]]
+name = "fourfloor-agent"
+path = "src/main.rs"
+
+[dependencies]
+fourfloor-core = { workspace = true, features = ["serde"] }
+fourfloor-model = { workspace = true }
+fourfloor-engine = { workspace = true }
+fourfloor-compile = { workspace = true }
+fourfloor-audio = { workspace = true }
+fourfloor-analysis = { workspace = true, features = ["serde"] }
+# Device crates: their `register` functions fill the default registry.
+fourfloor-instruments = { workspace = true }
+fourfloor-effects = { workspace = true }
+# Hosted plugins from the cached scan, so agent tools can list and add them.
+fourfloor-host = { workspace = true }
+serde = { workspace = true } # MIT OR Apache-2.0
+serde_json = { workspace = true } # MIT OR Apache-2.0
+schemars = "1" # MIT
+thiserror = "2" # MIT OR Apache-2.0
+# The official Rust MCP SDK: stdio and Streamable HTTP server transports.
+rmcp = { version = "3.5", default-features = false, features = [
+    "server",
+    "transport-io",
+    "transport-streamable-http-server",
+] } # Apache-2.0
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "net", "io-std", "sync", "signal"] } # MIT
+tokio-util = "0.7" # MIT
+# Hosts the Streamable HTTP tower service on localhost.
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] } # MIT
+# HTTP client for OpenAI-compatible local endpoints. No TLS backend is
+# enabled: it speaks plain HTTP, which is what a local server offers.
+reqwest = { version = "0.13", default-features = false, features = ["json"] } # MIT OR Apache-2.0
+url = "2" # MIT OR Apache-2.0 (already in the tree through reqwest)
+# In-process local LLM backend (candle based, heavy); off by default.
+mistralrs = { version = "0.8.1", optional = true } # MIT
+
+[features]
+default = []
+# Chat backend that runs a local GGUF model inside this process.
+mistralrs = ["dep:mistralrs"]
+
+[dev-dependencies]
+fourfloor-testkit = { workspace = true }
+tempfile = "3" # MIT OR Apache-2.0
+rmcp = { version = "3.5", default-features = false, features = [
+    "client",
+    "transport-streamable-http-client-reqwest",
+    "transport-child-process",
+] } # Apache-2.0
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio", "json"] } # MIT

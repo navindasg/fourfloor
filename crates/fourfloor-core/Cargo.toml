@@ -1,0 +1,19 @@
+[package]
+name = "fourfloor-core"
+description = "Shared contract types for fourfloor: ids, musical time, audio-thread messages and the Device trait"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[features]
+default = []
+# Derives Serialize/Deserialize on the id and time types (not on AudioMessage).
+serde = ["dep:serde"]
+
+[dependencies]
+serde = { workspace = true, optional = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

@@ -1,0 +1,19 @@
+[package]
+name = "fourfloor-instruments"
+description = "Built-in instruments for fourfloor: drum voices, bass and lead synths, sampler"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+fourfloor-core = { workspace = true }
+# Decoding sample files for the sampler (off the audio thread).
+fourfloor-audio = { workspace = true }
+rtrb = "0.4" # MIT OR Apache-2.0. Lock-free hand-over of loaded samples.
+rustfft = "6.4.1" # MIT OR Apache-2.0. Spectral-flux slicing.
+
+[dev-dependencies]
+fourfloor-testkit = { workspace = true }
+tempfile = "3" # MIT OR Apache-2.0

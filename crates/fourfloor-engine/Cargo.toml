@@ -1,0 +1,26 @@
+[package]
+name = "fourfloor-engine"
+description = "Real-time audio graph and transport for fourfloor"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+fourfloor-core = { workspace = true }
+rtrb = "0.4" # MIT OR Apache-2.0
+# BSD-1-Clause. Default features are off on purpose: the default
+# `disable_release` feature removes `AllocDisabler` from release builds, which
+# breaks the re-export. The engine arms the guard only in debug builds itself.
+assert_no_alloc = { version = "1.1", default-features = false }
+cpal = { version = "0.18", optional = true } # Apache-2.0
+midir = { version = "0.11", optional = true } # MIT
+
+[features]
+default = ["cpal"]
+# Realtime output through cpal (`backend::cpal_out`). Tests never open a device.
+cpal = ["dep:cpal"]
+# MIDI ports through midir (`midi::ports`): controller input and clock
+# output. The parsing, mapping and clock maths in `midi` need no feature.
+midi = ["dep:midir"]

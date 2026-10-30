@@ -1,0 +1,45 @@
+[package]
+name = "fourfloor-cli"
+description = "Command-line entry point for fourfloor"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[lib]
+name = "fourfloor_cli"
+path = "src/lib.rs"
+
+[[bin]]
+name = "fourfloor"
+path = "src/main.rs"
+
+[features]
+default = ["playback"]
+# `fourfloor play`: realtime output through cpal. Without it the command
+# reports that playback was not compiled in.
+playback = ["fourfloor-engine/cpal"]
+
+[dependencies]
+fourfloor-core = { workspace = true }
+fourfloor-engine = { workspace = true }
+fourfloor-model = { workspace = true }
+fourfloor-audio = { workspace = true }
+fourfloor-compile = { workspace = true }
+# Device crates: their `register` functions fill the device registry.
+fourfloor-instruments = { workspace = true }
+fourfloor-effects = { workspace = true }
+# Hosted plugins: registers the cached scan (never scans on its own).
+fourfloor-host = { workspace = true }
+# `analyze`, `import`/`export`, `library` and `agent`.
+fourfloor-analysis = { workspace = true }
+fourfloor-dawproject = { workspace = true }
+fourfloor-library = { workspace = true }
+fourfloor-agent = { workspace = true }
+
+[dev-dependencies]
+tempfile = "3" # MIT OR Apache-2.0
+fourfloor-testkit = { workspace = true }
+fourfloor-dj = { workspace = true }
+fourfloor-ml = { workspace = true }

@@ -1,0 +1,25 @@
+# Fixture CLAP plugins for the fourfloor-host tests.
+#
+# This is deliberately its own workspace: the plugins are a `cdylib` that the
+# host tests build with `cargo build` and then load from disk like any
+# third-party plugin. It is not a member of the fourfloor workspace.
+[workspace]
+
+[package]
+name = "fourfloor-test-plugins"
+description = "Tiny CLAP plugins (gain, fixed-latency delay, sine instrument) used as fourfloor-host test fixtures"
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+rust-version = "1.90"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+clack-plugin = "0.2.0" # MIT OR Apache-2.0
+clack-extensions = { version = "0.2.0", features = ["clack-plugin", "audio-ports", "note-ports", "latency", "params", "state"] } # MIT OR Apache-2.0
+
+[profile.dev]
+opt-level = 1

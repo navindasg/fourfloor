@@ -1,0 +1,24 @@
+[package]
+name = "fourfloor-library"
+description = "Sample and track library for fourfloor: scanning, tagging, search"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+fourfloor-core = { workspace = true }
+fourfloor-audio = { workspace = true }
+fourfloor-analysis = { workspace = true }
+# The factory samples are rendered from these instruments.
+fourfloor-instruments = { workspace = true }
+# MIT. `bundled` compiles SQLite (public domain) into the binary.
+rusqlite = { version = "0.40", features = ["bundled"] }
+blake3 = "1.8" # CC0-1.0 OR Apache-2.0. Content hashes.
+walkdir = "2.5" # Unlicense OR MIT
+thiserror = "2" # MIT OR Apache-2.0
+
+[dev-dependencies]
+fourfloor-testkit = { workspace = true }
+tempfile = "3" # MIT OR Apache-2.0

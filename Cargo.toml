@@ -1,0 +1,63 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/fourfloor-core",
+    "crates/fourfloor-engine",
+    "crates/fourfloor-model",
+    "crates/fourfloor-spikes",
+    "crates/fourfloor-cli",
+    "crates/fourfloor-audio",
+    "crates/fourfloor-compile",
+    "crates/fourfloor-testkit",
+    "crates/fourfloor-instruments",
+    "crates/fourfloor-effects",
+    "crates/fourfloor-analysis",
+    "crates/fourfloor-host",
+    "crates/fourfloor-dj",
+    "crates/fourfloor-library",
+    "crates/fourfloor-agent",
+    "crates/fourfloor-ml",
+    "crates/fourfloor-dawproject",
+    "crates/fourfloor-app",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "GPL-3.0-or-later"
+# Floor set by dependencies: cpal 0.18, symphonia 0.6 and clack-host 0.2 need
+# 1.85; truce-rack 1.1 (opt-in spike feature) needs 1.90.
+rust-version = "1.90"
+publish = false
+
+# Shared dependency versions. Every dependency must be OSI-licensed
+# (MIT / Apache-2.0 / BSD / ISC / MPL / LGPL / GPL-2+-or-3); nothing paid
+# or non-commercial. Crate-specific dependencies may be declared directly in
+# that crate's own Cargo.toml so parallel work does not collide on this file.
+[workspace.dependencies]
+fourfloor-core = { path = "crates/fourfloor-core", version = "0.1.0" }
+# Default features are off here so a dependent chooses whether to pull in cpal.
+fourfloor-engine = { path = "crates/fourfloor-engine", version = "0.1.0", default-features = false }
+fourfloor-model = { path = "crates/fourfloor-model", version = "0.1.0" }
+fourfloor-spikes = { path = "crates/fourfloor-spikes", version = "0.1.0" }
+fourfloor-audio = { path = "crates/fourfloor-audio", version = "0.1.0" }
+fourfloor-compile = { path = "crates/fourfloor-compile", version = "0.1.0" }
+fourfloor-testkit = { path = "crates/fourfloor-testkit", version = "0.1.0" }
+fourfloor-instruments = { path = "crates/fourfloor-instruments", version = "0.1.0" }
+fourfloor-effects = { path = "crates/fourfloor-effects", version = "0.1.0" }
+fourfloor-analysis = { path = "crates/fourfloor-analysis", version = "0.1.0" }
+fourfloor-host = { path = "crates/fourfloor-host", version = "0.1.0" }
+fourfloor-dj = { path = "crates/fourfloor-dj", version = "0.1.0" }
+fourfloor-library = { path = "crates/fourfloor-library", version = "0.1.0" }
+fourfloor-agent = { path = "crates/fourfloor-agent", version = "0.1.0" }
+fourfloor-ml = { path = "crates/fourfloor-ml", version = "0.1.0" }
+fourfloor-dawproject = { path = "crates/fourfloor-dawproject", version = "0.1.0" }
+serde = { version = "1", features = ["derive"] } # MIT OR Apache-2.0
+serde_json = "1" # MIT OR Apache-2.0
+
+# Tests render seconds of audio through DSP code, which is very slow with no
+# optimisation at all. Level 1 keeps debug assertions and overflow checks
+# (the engine's allocation guard depends on debug assertions) and makes the
+# render-heavy tests several times faster.
+[profile.dev]
+opt-level = 1

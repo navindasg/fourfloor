@@ -1,0 +1,26 @@
+[package]
+name = "fourfloor-compile"
+description = "Compiles a fourfloor project into an engine graph through the device registry"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+fourfloor-core = { workspace = true }
+fourfloor-engine = { workspace = true }
+fourfloor-model = { workspace = true }
+fourfloor-audio = { workspace = true }
+thiserror = "2" # MIT OR Apache-2.0
+
+[features]
+default = []
+# Key-locked warping of audio clips (Signalsmith Stretch, MIT; needs a C++
+# toolchain). Without it a key-locked clip falls back to varispeed with a
+# warning.
+stretch = ["fourfloor-audio/stretch"]
+
+[dev-dependencies]
+fourfloor-testkit = { workspace = true }
+tempfile = "3" # MIT OR Apache-2.0

@@ -1,0 +1,21 @@
+[package]
+name = "fourfloor-effects"
+description = "Built-in audio effects for fourfloor: filters, dynamics, delay, reverb"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+fourfloor-core = { workspace = true }
+
+[dev-dependencies]
+fourfloor-testkit = { workspace = true }
+# The delay-compensation test runs the limiter in a real graph.
+fourfloor-engine = { workspace = true }
+tempfile = "3" # MIT OR Apache-2.0
+# BSD-1-Clause. The same guard the testkit uses, for the test that changes
+# parameters between blocks. Default features off so it also works in
+# release test builds.
+assert_no_alloc = { version = "1.1", default-features = false }
